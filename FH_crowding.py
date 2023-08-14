@@ -424,8 +424,8 @@ class crowding_model(var):
         '''
         return data*(self.SASA/30**(2/3))*self.a
 
-    def plot_results(self, concentration_type='phi', exp_conc=np.nan, exp_ddG=np.nan, 
-                    exp_concT=np.nan, exp_ddH=np.nan, exp_TddS=np.nan):
+    def plot_results(self, concentration_type='phi', exp_conc=np.nan, exp_ddG=np.nan, err_ddG=np.nan,
+                    exp_concT=np.nan, exp_ddH=np.nan, exp_TddS=np.nan, err_ddH=np.nan, err_TddS=np.nan):
         ''' 
         Plot model results 
 
@@ -461,7 +461,8 @@ class crowding_model(var):
         axes[1,0].plot(conc, self.ddA_nu_kj)
         axes[1,0].plot(conc, self.ddA_chi_kj)
         axes[1,0].plot(conc, self.ddA_eps_kj)
-        axes[1,0].plot(exp_conc, exp_ddG,'o', label='_nolegend_')
+        #axes[1,0].plot(exp_conc, exp_ddG,'o', label='_nolegend_')
+        axes[1,0].errorbar(exp_conc, exp_ddG, yerr=err_ddG, marker='o', ls='',capsize=10, label='_nolegend_')
         axes[1,0].set_xlabel(str_conc)
         axes[1,0].set_ylabel(r'$\Delta\Delta G_i^{0}$')
         axes[1,0].legend(['tot',r'$\nu$',r'$\chi$',r'$\varepsilon$'])
@@ -469,7 +470,8 @@ class crowding_model(var):
         axes[1,1].plot(conc, self.ddE_kj)
         axes[1,1].plot(conc, self.ddE_chi_kj)
         axes[1,1].plot(conc, self.ddE_eps_kj)
-        axes[1,1].plot(exp_concT, exp_ddH,'o', label='_nolegend_')   
+        #axes[1,1].plot(exp_concT, exp_ddH,'o', label='_nolegend_')   
+        axes[1,1].errorbar(exp_concT, exp_ddH, yerr=err_ddH, marker='o', ls='',capsize=10, label='_nolegend_')
         axes[1,1].set_xlabel(str_conc)
         axes[1,1].set_ylabel(r'$\Delta\Delta H_i^{0}$')
         axes[1,1].legend(['tot',r'$\chi$',r'$\varepsilon$'])
@@ -478,7 +480,8 @@ class crowding_model(var):
         axes[1,2].plot(conc, self.TddS_nu_kj)
         axes[1,2].plot(conc, self.TddS_chi_kj)
         axes[1,2].plot(conc, self.TddS_eps_kj)
-        axes[1,2].plot(exp_concT, exp_TddS,'o', label='_nolegend_')   
+        #axes[1,2].plot(exp_concT, exp_TddS,'o', label='_nolegend_') 
+        axes[1,2].errorbar(exp_concT, exp_TddS, yerr=err_TddS, marker='o', ls='',capsize=10, label='_nolegend_')
         axes[1,2].set_xlabel(str_conc)
         axes[1,2].set_ylabel(r'$T\Delta\Delta S_i^{0}$')
         axes[1,2].legend(['tot',r'$\nu$',r'$\chi$',r'$\varepsilon$'])
