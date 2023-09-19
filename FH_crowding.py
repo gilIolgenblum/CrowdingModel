@@ -134,7 +134,7 @@ class crowding_model(var):
     def __str__(self):
         return f"Mean-Field Model:\nSoft_Interactions (\u03B5={self.eps}, \u03B5ₛ={self.epsTS}) \nProtein (SASA={self.SASA}) \nCosolute (\u03BD={self.nu}, \u03C7={self.chi}, \u03C7ₛ={self.chiTS})"
  
-    def fit_eps(self, exp_conc, exp_ddG, concentration_type='phi'):
+    def fit_eps(self, exp_conc, exp_ddG, concentration_type='phi',disp=True):
         ''' 
         Fit the experimental folding free energy to resolve the soft interaction parameter, eps
 
@@ -160,7 +160,7 @@ class crowding_model(var):
         self.phiCsurf = np.zeros(self.phiC.shape)
         self.muC, self.muS = self.cal_muC(), self.cal_muS()
         self.flag=True
-        minimize(self.rmsd_fit_eps, self.eps, (exp_ddG), options={'disp':True})
+        self.res = minimize(self.msd_fit_eps, self.eps, (exp_ddG), options={'disp':disp})
         # return to model arrays
         self.phiC, self.phiS= model_phiC, model_phiS
         self.muC, self.muS = self.cal_muC(), self.cal_muS()
@@ -170,7 +170,7 @@ class crowding_model(var):
         self.eps=self.eps[0]
         self.to_pandas()
 
-    def fit_epsTS(self, exp_conc, exp_ddH, exp_TddS, concentration_type='phi'):
+    def fit_epsTS(self, exp_conc, exp_ddH, exp_TddS, concentration_type='phi',disp=True):
         ''' 
         Fit the experimental folding free energy to resolve the soft interaction parameter, eps
 
@@ -197,7 +197,7 @@ class crowding_model(var):
         self.phiCsurf = np.zeros(self.phiC.shape)
         self.muC, self.muS = self.cal_muC(), self.cal_muS()
         self.flag=True
-        minimize(self.rmsd_fit_epsTS, np.array(self.epsTS), (exp_ddH, exp_TddS), options={'disp':True})
+        self.resTS =minimize(self.msd_fit_epsTS, np.array(self.epsTS), (exp_ddH, exp_TddS), options={'disp':disp})
         # return to model arrays
         self.phiC, self.phiS= model_phiC, model_phiS
         self.muC, self.muS = self.cal_muC(), self.cal_muS()
@@ -208,16 +208,18 @@ class crowding_model(var):
         self.epsH=self.epsH[0]
         self.to_pandas()
         
-    def rmsd_fit_eps(self,eps, ddG):
+    def msd_fit_eps(self,eps, ddG):
         self.eps = eps
         self.solve_crowding()
-        return (((ddG-self.ddA_kj)**2/len(ddG))**0.5).sum()
+        return ((ddG-self.ddA_kj)**2).sum()
+        #(((ddG-self.ddA_kj)**2/len(ddG))**0.5).sum()
     
-    def rmsd_fit_epsTS(self,epsTS, ddH, TddS):
+    def msd_fit_epsTS(self,epsTS, ddH, TddS):
         self.epsTS=epsTS
         self.epsH = self.eps + self.epsTS
         self.solve_crowding()
-        return (((ddH-self.ddE_kj)**2/len(ddH))**0.5).sum() + (((TddS-self.TddS_kj)**2/len(TddS))**0.5).sum() 
+        return ((ddH-self.ddE_kj)**2).sum() + ((TddS-self.TddS_kj)**2).sum()  
+        #(((ddH-self.ddE_kj)**2/len(ddH))**0.5).sum() + (((TddS-self.TddS_kj)**2/len(TddS))**0.5).sum() 
     
     def condition(self,corr_phiCsurf,i):
         ''' 
@@ -528,6 +530,7 @@ class crowding_model(var):
                             'phiS':self.phiS, 
                             'phiSsurf':self.phiSsurf, 
                             'molar':self.molar,
+                            'molal':self.molal,
                             'osm':self.osm,
                             'gamma_per_vol':self.gamma_Ms, 
                             'gamma':self.gamma,
