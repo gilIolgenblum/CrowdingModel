@@ -1,4 +1,4 @@
-# CrowdingModel
+# Protein Crowding Mean-Field Model
 
 This repository provides a mean-field framework for fitting and analyzing protein folding experiments in the presence of cosolutes or crowders. Unlike conventional models limited to volume exclusion and protein–cosolute interactions, our approach also accounts for cosolute–solvent non-ideal mixing effects. The theoretical background is detailed in the accompanying notebook, which includes a step-by-step example demonstrating how to apply the model to experimental data.
 
