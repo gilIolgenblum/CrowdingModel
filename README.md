@@ -7,5 +7,5 @@ This repository provides a mean-field framework for fitting and analyzing protei
 If you use this model (in its original or modified form), please cite the following:
 
 - Olgenblum, G. I.; Carmon, N.; Harries, D. *Not Always Sticky: Specificity of Protein Stabilization by Sugars Is Conferred by Protein–Water Hydrogen Bonds.* **Journal of the American Chemical Society** (2023).
-- Sapir, L.; Harries, D. *Macromolecular Stabilization by Excluded Cosolutes: Mean Field Theory of Crowded Solutions.* **Journal of Chemical Theory and Computation** 2015, **11**, 3478–3490.
-- Stewart, C. J.; Olgenblum, G. I.; Harries, D.; Pielak, G. J. *Unraveling the enthalpy of macromolecular crowding.* **Biophysical Journal** 2023, **122**, 336a. notebook and a detailed example of how to deploy the model is presented.
+- Sapir, L.; Harries, D. *Macromolecular Stabilization by Excluded Cosolutes: Mean Field Theory of Crowded Solutions.* **Journal of Chemical Theory and Computation** (2015).
+- Stewart, C. J.; Olgenblum, G. I.; Harries, D.; Pielak, G. J. *Resolving the enthalpy of protein stabilization by macromolecular crowding.* **Protein Science** (2023).
